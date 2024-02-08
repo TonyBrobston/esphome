@@ -26,6 +26,7 @@ class Servo : public Component {
   void setup() override {
     float v;
     if (this->restore_) {
+      ESP_LOGD("SERVO", "trying to restore");
       this->rtc_ = global_preferences->make_preference<float>(global_servo_id);
       global_servo_id++;
       if (this->rtc_.load(&v)) {
@@ -33,7 +34,11 @@ class Servo : public Component {
         this->target_value_ = v;
         this->internal_write(v);
         return;
+      } else {
+        ESP_LOGD("SERVO", "restore failed");
       }
+    } else {
+      ESP_LOGD("SERVO", "not trying to restore");
     }
     this->detach();
   }
@@ -47,7 +52,10 @@ class Servo : public Component {
   void set_transition_length(uint32_t transition_length) { transition_length_ = transition_length; }
 
  protected:
-  void save_level_(float v) { this->rtc_.save(&v); }
+  void save_level_(float v) {
+    ESP_LOGD("SERVO", "saving value %f", v);
+    this->rtc_.save(&v);
+  }
 
   output::FloatOutput *output_;
   float min_level_ = 0.0300f;
