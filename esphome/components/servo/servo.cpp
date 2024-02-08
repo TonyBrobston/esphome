@@ -70,9 +70,11 @@ void Servo::internal_write(float value) {
   } else {
     level = lerp(value, this->idle_level_, this->max_level_);
   }
+  ESP_LOGD(TAG, "internal write %f -> %f", value, level);
   this->output_->set_level(level);
   if (this->target_value_ == value) {
-    this->save_level_(level);
+    ESP_LOGD(TAG, "saving value %f", value);
+    this->save_level_(value);
   }
   this->current_value_ = value;
 }

@@ -28,6 +28,7 @@ class Servo : public Component {
       this->rtc_ = global_preferences->make_preference<float>(global_servo_id);
       global_servo_id++;
       if (this->rtc_.load(&v)) {
+        ESP_LOGD(TAG, "restored value %f", v);
         this->target_value_ = v;
         this->internal_write(v);
         return;
