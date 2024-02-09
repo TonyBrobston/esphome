@@ -21,7 +21,6 @@ class Servo : public Component {
   void detach() {
     this->state_ = STATE_DETACHED;
     this->output_->set_level(0.0f);
-    this->save_level_(0.0f);
   }
   void setup() override {
     float v;
