@@ -14,6 +14,7 @@ extern uint32_t global_servo_id;  // NOLINT(cppcoreguidelines-avoid-non-const-gl
 
 class Servo : public Component {
  public:
+  uint8_t state_;
   void set_output(output::FloatOutput *output) { output_ = output; }
   void loop() override;
   void write(float value);
@@ -64,7 +65,6 @@ class Servo : public Component {
   uint32_t auto_detach_time_ = 0;
   uint32_t transition_length_ = 0;
   ESPPreferenceObject rtc_;
-  uint8_t state_;
   float target_value_ = 0;
   float source_value_ = 0;
   float current_value_ = 0;
